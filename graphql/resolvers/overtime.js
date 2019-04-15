@@ -18,7 +18,6 @@ module.exports = {
     }
   },
   createOvertime: async (args, req) => {
-    console.log(args.overtimeInput);
     if (!req.isAuth) {
       throw new Error("Not authenticated");
     }

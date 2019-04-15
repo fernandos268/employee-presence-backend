@@ -70,6 +70,20 @@ const singleEvent = async eventId => {
 
 // EXPORTED FUNTCIONS / USED OR IMPORTED BY OTHER FILES
 
+const transformUser = async user => {
+  try {
+    return {
+      ...user._doc,
+      _id: user.id,
+      createdEvents: events.bind(this, user._doc.createdEvents),
+      createdDayOffs: dayoffs.bind(this, user._doc.createdDayOffs),
+      createdOvertimes: overtimes.bind(this, user._doc.createdOvertimes)
+    };
+  } catch (err) {
+    throw err;
+  }
+};
+
 const transformEvent = event => {
   return {
     ...event._doc,
@@ -111,6 +125,7 @@ const transformOvertime = overtime => {
   };
 };
 
+exports.transformUser = transformUser;
 exports.transformEvent = transformEvent;
 exports.transformBooking = transformBooking;
 exports.transformDayoff = transformDayoff;

@@ -93,6 +93,7 @@ type RootQuery {
     events: [Event!]!
     bookings:[Booking!]!
     signin(email:String!,password:String!): SigninResponse
+    users: [User!]!
     dayoffs:[DayOff!]!
     overtimes:[Overtime!]!
 }

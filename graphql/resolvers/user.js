@@ -4,7 +4,22 @@ const jwt = require("jsonwebtoken");
 // GRAPQL MODELS
 const User = require("../../models/user");
 
+// Transform Response Data
+const { transformUser } = require("./merge");
+
 module.exports = {
+  users: async () => {
+    try {
+      const users = await User.find();
+      console.log(users);
+
+      return users.map(user => {
+        return transformUser(user);
+      });
+    } catch (error) {
+      throw error;
+    }
+  },
   createUser: async args => {
     try {
       const existingUser = await User.findOne({ email: args.userInput.email });

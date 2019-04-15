@@ -1,0 +1,18 @@
+**Fri April 15, 2019**
+
+**Goals & Status**
+✅ Setup a GraphQL API (backend service) 
+✅ backend - setup a node backend service using express.
+✅ backend - create a MongoDB hosted in Mlab
+✅ backend - Create a mongoose Models
+✅ backend - create a GraphQL Schema's & Resolvers using express-GraphQL
+✅ backend - create a middleware for request authentication
+✅ backend - create mutations and queries for each module
+✅ backend - test the backend functionalities using GraphiQL & Postman
+
+**For next session**
+⭕ Connect the frontend app to the backend using ApolloClient.
+⭕ Create layout for each module.
+⭕ Create the auth logic (signin, signup, forgot password).
+⭕ test the login form.
+⭕ persist the user by using JsonWebToken
