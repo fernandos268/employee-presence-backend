@@ -18,12 +18,13 @@ type Event {
     creator: User!
 }
 
-
 type User {
     _id: ID!
     email: String!
     password: String
     createdEvents:[Event!]
+    createdDayOffs: [DayOff!]
+    createdOvertimes:[Overtime!]
 }
 
 type SigninResponse {
@@ -45,7 +46,7 @@ type Overtime {
     _id: ID!
     date: String!
     timeFrom: String!
-    timeTO: String!
+    timeTo: String!
     description: String!
     creator: User!
     status: String!
@@ -70,28 +71,21 @@ input DayOffInput {
     status: String!
 }
 
-input updateDayOffInput {
+input UpdateDayOffInput {
     _id: ID!
-    dateFrom: String!
-    dateTo: String!
-    description: String!
     status: String!
 }
 
 input OvertimeInput {
     date: String!
-    timeFrom:String!
-    timeTO:String!
+    timeFrom: String!
+    timeTo: String!
     description: String!
     status: String!
 }
 
 input UpdateOvertimeInput {
     _id: ID!
-    date: String!
-    timeFrom:String!
-    timeTO:String!
-    description: String!
     status: String!
 }
 
@@ -112,9 +106,9 @@ type RootMutation {
 
     createDayOff(dayoffInput: DayOffInput): DayOff!
     deleteDayOff(dayOffId: ID!): DayOff!
-    updateDayOff(updateDayOffInput: updateDayOffInput): DayOff!
+    updateDayOff(updateDayOffInput: UpdateDayOffInput): DayOff!
 
-    createOvertime(overtimeInput: OvertimeInput): Overtime
+    createOvertime(overtimeInput: OvertimeInput): Overtime!
     deleteOvertime(overtimeId: ID!): Overtime!
     updateOvertime(updateOvertimeInput: UpdateOvertimeInput ): Overtime!
 }

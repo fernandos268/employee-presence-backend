@@ -9,6 +9,7 @@ module.exports = {
   dayoffs: async () => {
     try {
       const dayoffs = await DayOff.find();
+
       return dayoffs.map(dayoff => {
         return transformDayoff(dayoff);
       });
@@ -39,7 +40,7 @@ module.exports = {
         throw new Error("User not found");
       }
 
-      creator.createdDayOffs.push(event);
+      creator.createdDayOffs.push(dayoff);
       await creator.save();
 
       return createdDayOff;
@@ -55,20 +56,15 @@ module.exports = {
     try {
       const dayoff = await DayOff.findById(args.updateDayOffInput._id);
       const creator = await User.findById(req.userId);
-
       if (!creator) {
         throw new Error("User not found");
       }
 
-      const updatedDayoff = await DayOff.update({
-        dateFrom: new Date(dayoff.updateDayOffInput.dateFrom),
-        dateTo: new Date(dayoff.updateDayOffInput.dateTo),
-        description: dayoff.updateDayOffInput.description,
-        creator: req.userId,
-        status: dayoff.updateDayOffInput.status
-      });
+      dayoff.status = args.updateDayOffInput.status;
 
-      return transformDayoff(updatedDayoff);
+      await dayoff.save();
+
+      return transformDayoff(dayoff);
     } catch (error) {
       throw error;
     }

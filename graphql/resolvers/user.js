@@ -28,23 +28,19 @@ module.exports = {
   signin: async ({ email, password }) => {
     const user = await User.findOne({ email: email });
     if (!user) {
-      throw new Error("User does not exist.");
+      throw new Error("User does not exist!");
     }
-    const passwordMatched = await bcrypt.compare(password, user.password);
-    if (!passwordMatched) {
-      throw new Error("Password does not match!");
+    const isEqual = await bcrypt.compare(password, user.password);
+    if (!isEqual) {
+      throw new Error("Password is incorrect!");
     }
     const token = jwt.sign(
       { userId: user.id, email: user.email },
       "myveryawesomesecretkey",
       {
-        expiresIn: "1hr"
+        expiresIn: "1h"
       }
     );
-    return {
-      userId: user.id,
-      token,
-      tokenExpiration: 1
-    };
+    return { userId: user.id, token: token, tokenExpiration: 1 };
   }
 };

@@ -20,13 +20,39 @@ const events = async eventIds => {
   }
 };
 
+const dayoffs = async dayoffIds => {
+  try {
+    const dayoffs = await DayOff.find({ _id: { $in: dayoffIds } });
+    dayoffs.map(dayoff => {
+      return transformDayoff(dayoff);
+    });
+    return dayoffs;
+  } catch (error) {
+    throw error;
+  }
+};
+
+const overtimes = async overtimeIds => {
+  try {
+    const overtimes = await Overtime.find({ _id: { $in: overtimeIds } });
+    overtimes.map(overtime => {
+      return transformOvertime(overtime);
+    });
+    return overtimes;
+  } catch (error) {
+    throw error;
+  }
+};
+
 const user = async userId => {
   try {
     const user = await User.findById(userId);
     return {
       ...user._doc,
       _id: user.id,
-      createdEvents: events.bind(this, user._doc.createdEvents)
+      createdEvents: events.bind(this, user._doc.createdEvents),
+      createdDayOffs: dayoffs.bind(this, user._doc.createdDayOffs),
+      createdOvertimes: overtimes.bind(this, user._doc.createdOvertimes)
     };
   } catch (err) {
     throw err;
@@ -70,10 +96,22 @@ const transformDayoff = dayoff => {
     _id: dayoff.id,
     dateFrom: dateToString(dayoff._doc.dateFrom),
     dateTo: dateToString(dayoff._doc.dateTo),
-    creator: user.bind(this, dayoff._doc.creator)
+    creator: user.bind(this, dayoff.creator)
+  };
+};
+
+const transformOvertime = overtime => {
+  return {
+    ...overtime._doc,
+    _id: overtime.id,
+    date: dateToString(overtime._doc.date),
+    timeFrom: dateToString(overtime._doc.timeFrom),
+    timeTo: dateToString(overtime._doc.timeTo),
+    creator: user.bind(this, overtime.creator)
   };
 };
 
 exports.transformEvent = transformEvent;
 exports.transformBooking = transformBooking;
 exports.transformDayoff = transformDayoff;
+exports.transformOvertime = transformOvertime;
