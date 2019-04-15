@@ -1,47 +1,48 @@
+// GraphQL Models
+const Event = require("../../models/event");
+const User = require("../../models/user");
 
-// GRAPQL MODELS
-const Event = require('../../models/event');
-
-//MERGE FUNCTIONS
-const { transformEvent } = require('./merge')
-
+// Transform Response Data
+const { transformEvent } = require("./merge");
 
 module.exports = {
-    events: async () => {
-        try {
-            const events = await Event.find();
-            return events.map(event => {
-                return transformEvent(event);
-            });
-        } catch (err) {
-            throw err;
-        }
-    },
-    createEvent: async args => {
-        const event = new Event({
-            title: args.eventInput.title,
-            description: args.eventInput.description,
-            price: +args.eventInput.price,
-            date: new Date(args.eventInput.date),
-            creator: '5cb04a587838a366e950a4e4'
-        });
-        let createdEvent;
-        try {
-            const result = await event.save();
-            createdEvent = transformEvent(result);
-            const creator = await User.findById('5cb04a587838a366e950a4e4');
+  events: async () => {
+    try {
+      const events = await Event.find();
+      return events.map(event => {
+        return transformEvent(event);
+      });
+    } catch (err) {
+      throw err;
+    }
+  },
+  createEvent: async (args, req) => {
+    if (!req.isAuth) {
+      throw new Error("Not authenticated");
+    }
 
-            if (!creator) {
-                throw new Error('User not found.');
-            }
-            creator.createdEvents.push(event);
-            await creator.save();
+    const event = new Event({
+      title: args.eventInput.title,
+      description: args.eventInput.description,
+      price: +args.eventInput.price,
+      date: new Date(args.eventInput.date),
+      creator: req.userId
+    });
+    let createdEvent;
+    try {
+      const result = await event.save();
+      createdEvent = transformEvent(result);
+      const creator = await User.findById(req.userId);
 
-            return createdEvent;
-        } catch (err) {
-            console.log(err);
-            throw err;
-        }
-    },
+      if (!creator) {
+        throw new Error("User not found.");
+      }
+      creator.createdEvents.push(event);
+      await creator.save();
 
+      return createdEvent;
+    } catch (err) {
+      throw err;
+    }
+  }
 };

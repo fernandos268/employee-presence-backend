@@ -1,0 +1,9 @@
+// CREATE DAY OFF
+{
+	"query": "mutation {createDayOff(dayoffInput: {dateFrom: \"2019-04-15T05:11:20.095Z\", dateTo:\"2019-04-15T05:11:20.095Z\",description:\"second day off test\", status: \"Pending Approval\"}) {_id description}}"
+}
+
+// CREATE EVENT
+
+
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1Y2IzZDFjYWIxMDQ4YzE5Nzg2MmE5NGMiLCJlbWFpbCI6ImZlcm5zQHRlc3QuY29tIiwiaWF0IjoxNTU1MzA2NTEwLCJleHAiOjE1NTUzMTAxMTB9.4TkNFFuwjTT8af25XsCdPQ_2TrGE3J19lrXfILPvLUE
