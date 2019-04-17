@@ -3,6 +3,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const graphqlHttp = require("express-graphql");
 const mongoose = require("mongoose");
+const cors = require("cors");
 
 // GraphQL Schema & Resolvers
 const GraphQlSchema = require("./graphql/schema");
@@ -17,6 +18,8 @@ const PORT = 4040;
 app.use(bodyParser.json());
 
 app.use(isAuth);
+
+app.use(cors({ credentials: true, origin: "http://localhost:9000" }));
 
 app.use(
   "/graphql",

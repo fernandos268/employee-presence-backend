@@ -8,10 +8,12 @@ const User = require("../../models/user");
 const { transformUser } = require("./merge");
 
 module.exports = {
-  users: async () => {
+  users: async (args, req) => {
+    if (!req.isAuth) {
+      throw new Error("Not authenticated");
+    }
     try {
       const users = await User.find();
-      console.log(users);
 
       return users.map(user => {
         return transformUser(user);
@@ -24,30 +26,92 @@ module.exports = {
     try {
       const existingUser = await User.findOne({ email: args.userInput.email });
       if (existingUser) {
-        throw new Error("User exists already.");
+        // throw new Error({ path: "email", message: "Email is already used." });
+        return {
+          email: null,
+          ok: false,
+          errors: [{ path: "email", message: "Email is already used" }]
+        };
       }
       const hashedPassword = await bcrypt.hash(args.userInput.password, 12);
 
       const user = new User({
+        firstName: args.userInput.firstName,
+        lastName: args.userInput.lastName,
+        suffix: args.userInput.suffix,
+        username: args.userInput.username,
         email: args.userInput.email,
-        password: hashedPassword
+        password: hashedPassword,
+        isAdmin: args.userInput.isAdmin
       });
 
       const result = await user.save();
-
-      return { ...result._doc, password: null, _id: result.id };
+      // const createdUser = { ...result._doc, password: null, _id: result.id };
+      // return { ...result._doc, password: null, _id: result.id };
+      return { email: result.email, ok: true };
     } catch (err) {
-      throw err;
+      return {
+        email: null,
+        ok: false,
+        errors: [{ path: err.path, message: err.message }]
+      };
+
+      // throw err;
     }
   },
   signin: async ({ email, password }) => {
     const user = await User.findOne({ email: email });
     if (!user) {
-      throw new Error("User does not exist!");
+      // throw new Error("User does not exist");
+
+      // return {
+      //   email: null,
+      //   ok: false,
+      //   errors: [
+      //     {
+      //       path: "signinCredentials",
+      //       message: "Email or Password is incorrect"
+      //     }
+      //   ]
+      // };
+      // FOR DEV TESTING
+      return {
+        email: null,
+        ok: false,
+        errors: [
+          {
+            path: "signinCredentials",
+            message: "User does not exist!"
+          }
+        ]
+      };
     }
     const isEqual = await bcrypt.compare(password, user.password);
     if (!isEqual) {
-      throw new Error("Password is incorrect!");
+      // throw new Error("Password is incorrect!");
+
+      // return {
+      //   email: null,
+      //   ok: false,
+      //   errors: [
+      //     {
+      //       path: "signinCredentials",
+      //       message: "Email or Password is incorrect"
+      //     }
+      //   ]
+      // };
+
+      // FOR DEV TESTING
+      return {
+        email: null,
+        ok: false,
+        errors: [
+          {
+            path: "signinCredentials",
+            message: "Password is incorrect!"
+          }
+        ]
+      };
     }
     const token = jwt.sign(
       { userId: user.id, email: user.email },
@@ -56,6 +120,6 @@ module.exports = {
         expiresIn: "1h"
       }
     );
-    return { userId: user.id, token: token, tokenExpiration: 1 };
+    return { userId: user.id, token: token, tokenExpiration: 1, ok: true };
   }
 };

@@ -20,17 +20,35 @@ type Event {
 
 type User {
     _id: ID!
+    firstName: String!
+    lastName: String!
+    suffix: String
     email: String!
+    username: String!
     password: String
+    isAdmin:Boolean!
     createdEvents:[Event!]
     createdDayOffs: [DayOff!]
     createdOvertimes:[Overtime!]
 }
 
 type SigninResponse {
-    userId:ID!
-    token: String!
-    tokenExpiration: Int!
+    userId:ID
+    token: String
+    tokenExpiration: Int
+    ok:Boolean!
+    errors:[Error!]
+}
+
+type SignupResponse {
+    email:String
+    ok:Boolean!
+    errors:[Error!]
+}
+
+type Error {
+    path: String!
+    message: String
 }
 
 type DayOff {
@@ -60,8 +78,13 @@ input EventInput {
 }
 
 input UserInput {
+    firstName: String!
+    lastName:String!
+    suffix:String
     email: String!
+    username: String!
     password: String!
+    isAdmin:Boolean!
 }
 
 input DayOffInput {
@@ -92,7 +115,6 @@ input UpdateOvertimeInput {
 type RootQuery {
     events: [Event!]!
     bookings:[Booking!]!
-    signin(email:String!,password:String!): SigninResponse
     users: [User!]!
     dayoffs:[DayOff!]!
     overtimes:[Overtime!]!
@@ -100,7 +122,9 @@ type RootQuery {
 
 type RootMutation {
     createEvent(eventInput: EventInput): Event!
-    createUser(userInput: UserInput): User!
+
+    createUser(userInput: UserInput): SignupResponse!
+    signin(email:String!,password:String!): SigninResponse!
 
     bookEvent(eventId: ID!): Booking!
     cancelBooking(bookingId: ID!): Event!
