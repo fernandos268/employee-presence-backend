@@ -76,7 +76,6 @@ module.exports = {
       // };
       // FOR DEV TESTING
       return {
-        email: null,
         ok: false,
         errors: [
           {
@@ -103,7 +102,6 @@ module.exports = {
 
       // FOR DEV TESTING
       return {
-        email: null,
         ok: false,
         errors: [
           {
@@ -114,7 +112,7 @@ module.exports = {
       };
     }
     const token = jwt.sign(
-      { userId: user.id, email: user.email },
+      { userId: user.id, email: user.email, username: user.username },
       "myveryawesomesecretkey",
       {
         expiresIn: "1h"
