@@ -20,8 +20,8 @@ type Event {
 
 type User {
     _id: ID!
-    firstName: String!
-    lastName: String!
+    firstName: String
+    lastName: String
     suffix: String
     email: String!
     username: String!
@@ -62,12 +62,25 @@ type DayOff {
 
 type Overtime {
     _id: ID!
-    date: String!
-    timeFrom: String!
-    timeTo: String!
+    date:String!
+    startTime: String!
+    endTime: String!
+    duration: String!
     description: String!
     creator: User!
     status: String!
+}
+
+type createOvertimeResponse {
+    ok:Boolean!
+    errors:[Error!]
+    overtime:Overtime
+}
+
+type queryUserResponse {
+    ok:Boolean!
+    errors:[Error!]
+    user:User
 }
 
 input EventInput {
@@ -100,9 +113,10 @@ input UpdateDayOffInput {
 }
 
 input OvertimeInput {
-    date: String!
-    timeFrom: String!
-    timeTo: String!
+    date:String!
+    startTime: String!
+    endTime: String!
+    duration: String!
     description: String!
     status: String!
 }
@@ -116,6 +130,7 @@ type RootQuery {
     events: [Event!]!
     bookings:[Booking!]!
     users: [User!]!
+    fetchUser(userId: ID!): queryUserResponse!
     dayoffs:[DayOff!]!
     overtimes:[Overtime!]!
 }
@@ -129,13 +144,13 @@ type RootMutation {
     bookEvent(eventId: ID!): Booking!
     cancelBooking(bookingId: ID!): Event!
 
+    createOvertime(overtimeInput: OvertimeInput): createOvertimeResponse!
+    deleteOvertime(overtimeId: ID!): Overtime!
+    updateOvertime(updateOvertimeInput: UpdateOvertimeInput ): Overtime!
+
     createDayOff(dayoffInput: DayOffInput): DayOff!
     deleteDayOff(dayOffId: ID!): DayOff!
     updateDayOff(updateDayOffInput: UpdateDayOffInput): DayOff!
-
-    createOvertime(overtimeInput: OvertimeInput): Overtime!
-    deleteOvertime(overtimeId: ID!): Overtime!
-    updateOvertime(updateOvertimeInput: UpdateOvertimeInput ): Overtime!
 }
 
 schema {

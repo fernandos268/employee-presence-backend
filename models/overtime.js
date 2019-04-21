@@ -7,12 +7,16 @@ const overtimeSchema = new Schema({
     type: Date,
     required: true
   },
-  timeFrom: {
-    type: Date,
+  startTime: {
+    type: String,
     required: true
   },
-  timeTo: {
-    type: Date,
+  endTime: {
+    type: String,
+    required: true
+  },
+  duration: {
+    type: String,
     required: true
   },
   description: {

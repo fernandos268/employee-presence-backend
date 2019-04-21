@@ -59,6 +59,8 @@ const user = async userId => {
   }
 };
 
+
+
 const singleEvent = async eventId => {
   try {
     const event = await Event.findById(eventId);
@@ -119,13 +121,12 @@ const transformOvertime = overtime => {
     ...overtime._doc,
     _id: overtime.id,
     date: dateToString(overtime._doc.date),
-    timeFrom: dateToString(overtime._doc.timeFrom),
-    timeTo: dateToString(overtime._doc.timeTo),
     creator: user.bind(this, overtime.creator)
   };
 };
 
 exports.transformUser = transformUser;
+exports.user = user;
 exports.transformEvent = transformEvent;
 exports.transformBooking = transformBooking;
 exports.transformDayoff = transformDayoff;

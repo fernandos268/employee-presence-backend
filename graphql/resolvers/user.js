@@ -5,7 +5,7 @@ const jwt = require("jsonwebtoken");
 const User = require("../../models/user");
 
 // Transform Response Data
-const { transformUser } = require("./merge");
+const { transformUser, user } = require("./merge");
 
 module.exports = {
   users: async (args, req) => {
@@ -20,6 +20,26 @@ module.exports = {
       });
     } catch (error) {
       throw error;
+    }
+  },
+  fetchUser: async ({ userId }, req) => {
+    if (!req.isAuth) {
+      // throw new Error("Not authenticated");
+      return {
+        ok: false,
+        errors: [{ path: "authentication", message: "Not authenticated" }]
+      }
+    }
+    try {
+      const fetchedUser = user(userId)
+
+      return { ok: true, user: fetchedUser }
+    } catch (error) {
+      // throw error;
+      return {
+        ok: false,
+        errors: [{ path: error.path, message: error.message }]
+      }
     }
   },
   createUser: async args => {

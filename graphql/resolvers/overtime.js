@@ -19,13 +19,18 @@ module.exports = {
   },
   createOvertime: async (args, req) => {
     if (!req.isAuth) {
-      throw new Error("Not authenticated");
+      // throw new Error("Not authenticated");
+      return {
+        ok: false,
+        errors: [{ path: "authentication", message: "Not authenticated" }]
+      }
     }
 
     const overtime = new Overtime({
       date: new Date(args.overtimeInput.date),
-      timeFrom: new Date(args.overtimeInput.timeFrom),
-      timeTo: new Date(args.overtimeInput.timeTo),
+      startTime: args.overtimeInput.startTime,
+      endTime: args.overtimeInput.endTime,
+      duration: args.overtimeInput.duration,
       description: args.overtimeInput.description,
       creator: req.userId,
       status: args.overtimeInput.status
@@ -39,15 +44,23 @@ module.exports = {
       const creator = await User.findById(req.userId);
 
       if (!creator) {
-        throw new Error("User not found");
+        // throw new Error("User not found");
+        return {
+          ok: false,
+          errors: [{ path: "creator", message: "User not found" }]
+        }
       }
 
       creator.createdOvertimes.push(overtime);
       await creator.save();
 
-      return createdOvertime;
+      return { ok: true, overtime: createdOvertime };
     } catch (error) {
-      throw error;
+      // throw error;
+      return {
+        ok: false,
+        errors: [{ path: error.path, message: error.message }]
+      }
     }
   },
   updateOvertime: async (args, req) => {
