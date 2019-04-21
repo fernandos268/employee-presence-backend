@@ -11,10 +11,9 @@ const { dateToString } = require("../../helpers/date");
 const events = async eventIds => {
   try {
     const events = await Event.find({ _id: { $in: eventIds } });
-    events.map(event => {
+    return events.map(event => {
       return transformEvent(event);
     });
-    return events;
   } catch (err) {
     throw err;
   }
@@ -23,10 +22,9 @@ const events = async eventIds => {
 const dayoffs = async dayoffIds => {
   try {
     const dayoffs = await DayOff.find({ _id: { $in: dayoffIds } });
-    dayoffs.map(dayoff => {
+    return dayoffs.map(dayoff => {
       return transformDayoff(dayoff);
     });
-    return dayoffs;
   } catch (error) {
     throw error;
   }
@@ -35,10 +33,10 @@ const dayoffs = async dayoffIds => {
 const overtimes = async overtimeIds => {
   try {
     const overtimes = await Overtime.find({ _id: { $in: overtimeIds } });
-    overtimes.map(overtime => {
+    return overtimes.map(overtime => {
       return transformOvertime(overtime);
     });
-    return overtimes;
+
   } catch (error) {
     throw error;
   }
@@ -52,7 +50,8 @@ const user = async userId => {
       _id: user.id,
       createdEvents: events.bind(this, user._doc.createdEvents),
       createdDayOffs: dayoffs.bind(this, user._doc.createdDayOffs),
-      createdOvertimes: overtimes.bind(this, user._doc.createdOvertimes)
+      createdOvertimes: overtimes.bind(this, user._doc.createdOvertimes),
+      assignedOvertimes: overtimes.bind(this, user._doc.assignedOvertimes)
     };
   } catch (err) {
     throw err;
@@ -79,7 +78,8 @@ const transformUser = async user => {
       _id: user.id,
       createdEvents: events.bind(this, user._doc.createdEvents),
       createdDayOffs: dayoffs.bind(this, user._doc.createdDayOffs),
-      createdOvertimes: overtimes.bind(this, user._doc.createdOvertimes)
+      createdOvertimes: overtimes.bind(this, user._doc.createdOvertimes),
+      assignedOvertimes: overtimes.bind(this, user._doc.assignedOvertimes)
     };
   } catch (err) {
     throw err;
@@ -121,7 +121,8 @@ const transformOvertime = overtime => {
     ...overtime._doc,
     _id: overtime.id,
     date: dateToString(overtime._doc.date),
-    creator: user.bind(this, overtime.creator)
+    creator: user.bind(this, overtime.creator),
+    approver: user.bind(this, overtime.approver)
   };
 };
 

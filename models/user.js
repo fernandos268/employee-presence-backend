@@ -48,7 +48,14 @@ const userSchema = new Schema({
       type: Schema.Types.ObjectId,
       ref: "Overtime"
     }
+  ],
+  assignedOvertimes: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Overtime"
+    }
   ]
+
 });
 
 module.exports = mongoose.model("User", userSchema);

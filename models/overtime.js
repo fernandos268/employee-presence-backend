@@ -27,6 +27,10 @@ const overtimeSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "User"
   },
+  approver: {
+    type: Schema.Types.ObjectId,
+    ref: "User"
+  },
   status: {
     type: String,
     required: true

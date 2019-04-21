@@ -30,6 +30,7 @@ type User {
     createdEvents:[Event!]
     createdDayOffs: [DayOff!]
     createdOvertimes:[Overtime!]
+    assignedOvertimes:[Overtime!]
 }
 
 type SigninResponse {
@@ -69,12 +70,13 @@ type Overtime {
     description: String!
     creator: User!
     status: String!
+    approver: User!
 }
 
-type createOvertimeResponse {
+type OvertimeResponse {
     ok:Boolean!
     errors:[Error!]
-    overtime:Overtime
+    overtime: Overtime
 }
 
 type queryUserResponse {
@@ -119,6 +121,7 @@ input OvertimeInput {
     duration: String!
     description: String!
     status: String!
+    approverId: ID!
 }
 
 input UpdateOvertimeInput {
@@ -144,8 +147,8 @@ type RootMutation {
     bookEvent(eventId: ID!): Booking!
     cancelBooking(bookingId: ID!): Event!
 
-    createOvertime(overtimeInput: OvertimeInput): createOvertimeResponse!
-    deleteOvertime(overtimeId: ID!): Overtime!
+    createOvertime(overtimeInput: OvertimeInput): OvertimeResponse!
+    deleteOvertime(overtimeId: ID!): OvertimeResponse!
     updateOvertime(updateOvertimeInput: UpdateOvertimeInput ): Overtime!
 
     createDayOff(dayoffInput: DayOffInput): DayOff!
