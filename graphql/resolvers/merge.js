@@ -36,7 +36,6 @@ const overtimes = async overtimeIds => {
     return overtimes.map(overtime => {
       return transformOvertime(overtime);
     });
-
   } catch (error) {
     throw error;
   }
@@ -50,6 +49,7 @@ const user = async userId => {
       _id: user.id,
       createdEvents: events.bind(this, user._doc.createdEvents),
       createdDayOffs: dayoffs.bind(this, user._doc.createdDayOffs),
+      assignedDayOffs: dayoffs.bind(this, user._doc.assignedDayOffs),
       createdOvertimes: overtimes.bind(this, user._doc.createdOvertimes),
       assignedOvertimes: overtimes.bind(this, user._doc.assignedOvertimes)
     };
@@ -57,8 +57,6 @@ const user = async userId => {
     throw err;
   }
 };
-
-
 
 const singleEvent = async eventId => {
   try {
@@ -78,6 +76,7 @@ const transformUser = async user => {
       _id: user.id,
       createdEvents: events.bind(this, user._doc.createdEvents),
       createdDayOffs: dayoffs.bind(this, user._doc.createdDayOffs),
+      assignedDayOffs: dayoffs.bind(this, user._doc.assignedDayOffs),
       createdOvertimes: overtimes.bind(this, user._doc.createdOvertimes),
       assignedOvertimes: overtimes.bind(this, user._doc.assignedOvertimes)
     };
@@ -110,9 +109,10 @@ const transformDayoff = dayoff => {
   return {
     ...dayoff._doc,
     _id: dayoff.id,
-    dateFrom: dateToString(dayoff._doc.dateFrom),
-    dateTo: dateToString(dayoff._doc.dateTo),
-    creator: user.bind(this, dayoff.creator)
+    startDate: dateToString(dayoff._doc.startDate),
+    endDate: dateToString(dayoff._doc.endDate),
+    creator: user.bind(this, dayoff.creator),
+    approver: user.bind(this, dayoff.approver)
   };
 };
 

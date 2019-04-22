@@ -31,6 +31,7 @@ type User {
     createdDayOffs: [DayOff!]
     createdOvertimes:[Overtime!]
     assignedOvertimes:[Overtime!]
+    assignedDayOffs: [DayOff!]
 }
 
 type SigninResponse {
@@ -54,10 +55,12 @@ type Error {
 
 type DayOff {
     _id: ID!
-    dateFrom: String!
-    dateTo: String!
+    startDate: String!
+    endDate: String!
+    duration: String!
     description: String!
     creator: User!
+    approver: User!
     status: String!
 }
 
@@ -69,14 +72,20 @@ type Overtime {
     duration: String!
     description: String!
     creator: User!
-    status: String!
     approver: User!
+    status: String!
 }
 
 type OvertimeResponse {
     ok:Boolean!
     errors:[Error!]
     overtime: Overtime
+}
+
+type DayOffResponse {
+    ok:Boolean!
+    errors:[Error!]
+    dayoff: DayOff
 }
 
 type queryUserResponse {
@@ -103,15 +112,12 @@ input UserInput {
 }
 
 input DayOffInput {
-    dateFrom: String!
-    dateTo: String!
+    startDate: String!
+    endDate: String!
+    duration:String!
     description: String!
     status: String!
-}
-
-input UpdateDayOffInput {
-    _id: ID!
-    status: String!
+    approverId: ID!
 }
 
 input OvertimeInput {
@@ -122,11 +128,6 @@ input OvertimeInput {
     description: String!
     status: String!
     approverId: ID!
-}
-
-input UpdateOvertimeInput {
-    _id: ID!
-    status: String!
 }
 
 type RootQuery {
@@ -149,11 +150,11 @@ type RootMutation {
 
     createOvertime(overtimeInput: OvertimeInput): OvertimeResponse!
     deleteOvertime(overtimeId: ID!): OvertimeResponse!
-    updateOvertime(updateOvertimeInput: UpdateOvertimeInput ): Overtime!
+    updateOvertime(overtimeId: ID!, status: String!): OvertimeResponse!
 
-    createDayOff(dayoffInput: DayOffInput): DayOff!
-    deleteDayOff(dayOffId: ID!): DayOff!
-    updateDayOff(updateDayOffInput: UpdateDayOffInput): DayOff!
+    createDayOff(dayoffInput: DayOffInput): DayOffResponse!
+    deleteDayOff(dayOffId: ID!): DayOffResponse!
+    updateDayOff(dayOffId: ID!, status: String!): DayOffResponse!
 }
 
 schema {

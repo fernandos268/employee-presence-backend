@@ -22,7 +22,7 @@ module.exports = {
       return {
         ok: false,
         errors: [{ path: "authentication", message: "Not authenticated" }]
-      }
+      };
     }
 
     const overtime = new Overtime({
@@ -47,23 +47,23 @@ module.exports = {
         return {
           ok: false,
           errors: [{ path: "creator", message: "User not found" }]
-        }
+        };
       }
       if (!approver) {
         return {
           ok: false,
           errors: [{ path: "approver", message: "User not found" }]
-        }
+        };
       }
 
       const result = await overtime.save();
       const createdOvertime = transformOvertime(result);
 
-      approver.assignedOvertimes.push(overtime)
-      await approver.save();
-
       creator.createdOvertimes.push(overtime);
       await creator.save();
+
+      approver.assignedOvertimes.push(overtime);
+      await approver.save();
 
       return { ok: true, overtime: createdOvertime };
     } catch (error) {
@@ -71,29 +71,41 @@ module.exports = {
       return {
         ok: false,
         errors: [{ path: error.path, message: error.message }]
-      }
+      };
     }
   },
   updateOvertime: async (args, req) => {
     if (!req.isAuth) {
-      throw new Error("Not authenticated");
+      // throw new Error("Not authenticated");
+      return {
+        ok: false,
+        errors: [{ path: "authentication", message: "Not authenticated" }]
+      };
     }
 
     try {
-      const overtime = await Overtime.findById(args.updateOvertimeInput._id);
+      const overtime = await Overtime.findById(args.overtimeId);
       const creator = await User.findById(req.userId);
 
       if (!creator) {
-        throw new Error("User not found");
+        // throw new Error("User not found");
+        return {
+          ok: false,
+          errors: [{ path: "creator", message: "User not found" }]
+        };
       }
 
-      overtime.status = args.updateOvertimeInput.status;
+      overtime.status = args.status;
 
       await overtime.save();
 
-      return transformOvertime(overtime);
+      return { ok: true, overtime: transformOvertime(overtime) };
     } catch (error) {
-      throw error;
+      // throw error;
+      return {
+        ok: false,
+        errors: [{ path: error.path, message: error.message }]
+      };
     }
   },
   deleteOvertime: async (args, req) => {
@@ -102,20 +114,20 @@ module.exports = {
       return {
         ok: false,
         errors: [{ path: "creator", message: "User not found" }]
-      }
+      };
     }
 
     try {
       const overtime = await Overtime.findById(args.overtimeId);
       await Overtime.deleteOne({ _id: args.overtimeId });
       // return transformOvertime(overtime);
-      return { ok: true, overtime: transformOvertime(overtime) }
+      return { ok: true, overtime: transformOvertime(overtime) };
     } catch (error) {
       // throw error;
       return {
         ok: false,
         errors: [{ path: error.path, message: error.message }]
-      }
+      };
     }
   }
 };

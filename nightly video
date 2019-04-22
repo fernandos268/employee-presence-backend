@@ -1,17 +1,17 @@
-**Fri April 16, 2019**
+**Monday April 22, 2019**
 
 **Goals & Status**
-✅ Connect the frontend app to the backend using ApolloClient.
-✅ Create the auth logic (signin, signup).
-✅ test the login form by sending post request (mutation) to api
-✅ add custom middleware to handle request authentication
-✅ added custom resolver authentication
-✅ generate JsonWebToken after signin post request
-✅ create signin & signup form
+✅ Frontend : Create the Forms and Table View for Overtime & Dayoff Module.
+✅ Frontend : Create the Create, Update, Delete mutations & refetch query.
+✅ Backend : Overtime & Dayoff module resolvers & mongoose schema.
+
+**Others**
+✅ Backend : Created an object transformer functions.
+✅ Backend : Adjusted the Schema file and tweak/added a custom response for each Query & Mutation.
+✅ Backend: Customize error object response.
+✅ Frontend : Created the Home Component that contains a full page calendar.
 
 **For next session**
-⭕ format error response
-⭕ signup mutation from client to server
-⭕ store JWT to localstorage for user persistence
-⭕ create Dayoff module components
-⭕ test post request of Dayoff module from client to server
+⭕ Frontend : Refactor code for create,update,delete handlers.
+⭕ Frontend/Backend : Create the fetch query for the Home component data.
+⭕ Frontend : Add Approved & Rejected table view.

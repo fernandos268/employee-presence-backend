@@ -43,6 +43,12 @@ const userSchema = new Schema({
       ref: "DayOff"
     }
   ],
+  assignedDayOffs: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "DayOff"
+    }
+  ],
   createdOvertimes: [
     {
       type: Schema.Types.ObjectId,
@@ -55,7 +61,6 @@ const userSchema = new Schema({
       ref: "Overtime"
     }
   ]
-
 });
 
 module.exports = mongoose.model("User", userSchema);

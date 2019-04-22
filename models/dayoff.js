@@ -3,12 +3,16 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const dayOffSchema = new Schema({
-  dateFrom: {
+  startDate: {
     type: Date,
     required: true
   },
-  dateTo: {
+  endDate: {
     type: Date,
+    required: true
+  },
+  duration: {
+    type: String,
     required: true
   },
   description: {
@@ -16,6 +20,10 @@ const dayOffSchema = new Schema({
     required: true
   },
   creator: {
+    type: Schema.Types.ObjectId,
+    ref: "User"
+  },
+  approver: {
     type: Schema.Types.ObjectId,
     ref: "User"
   },
