@@ -1,17 +1,15 @@
-**Monday April 22, 2019**
+**Monday April 25, 2019**
 
 **Goals & Status**
-✅ Frontend : Create the Forms and Table View for Overtime & Dayoff Module.
-✅ Frontend : Create the Create, Update, Delete mutations & refetch query.
-✅ Backend : Overtime & Dayoff module resolvers & mongoose schema.
+✅ Refactor Signin Input validation, handlers, and component modules
+✅ Refactor Signup handlers, and component modules
+✅ Frontend : Refactor the Async & Await code implementations.
 
-**Others**
-✅ Backend : Created an object transformer functions.
-✅ Backend : Adjusted the Schema file and tweak/added a custom response for each Query & Mutation.
-✅ Backend: Customize error object response.
-✅ Frontend : Created the Home Component that contains a full page calendar.
+**others**
+✅ Read ES6 documentations: Async & Await, and objects
+✅ Read articles about React Lifecycles: component update process.
 
 **For next session**
-⭕ Frontend : Refactor code for create,update,delete handlers.
-⭕ Frontend/Backend : Create the fetch query for the Home component data.
-⭕ Frontend : Add Approved & Rejected table view.
+⭕ Frontend : Research about redux and figure out how to implement it on the current app.
+⭕ Frontend : Finish the Signup refactoring.
+⭕ Frontend : Refactor the Dayoff & Overtime Modules.
