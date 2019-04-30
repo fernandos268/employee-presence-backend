@@ -43,7 +43,7 @@ type SigninResponse {
 }
 
 type SignupResponse {
-    email:String
+    user:User
     ok:Boolean!
     errors:[Error!]
 }

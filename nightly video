@@ -1,15 +1,15 @@
-**Monday April 25, 2019**
+**April 29, 2019**
 
 **Goals & Status**
-✅ Refactor Signin Input validation, handlers, and component modules
-✅ Refactor Signup handlers, and component modules
-✅ Frontend : Refactor the Async & Await code implementations.
+✅ Research about Redux, and how to add redux into a react app.
+✅ Create the redux files such as the Reducers, Actions, Constant Action Types
+❌ Put fetched users data from API into the redux store.
+
 
 **others**
-✅ Read ES6 documentations: Async & Await, and objects
-✅ Read articles about React Lifecycles: component update process.
+✅ Minor code enhancements.
 
 **For next session**
-⭕ Frontend : Research about redux and figure out how to implement it on the current app.
-⭕ Frontend : Finish the Signup refactoring.
-⭕ Frontend : Refactor the Dayoff & Overtime Modules.
+⭕ Create the Users reducers, actions and making it functional.
+⭕ Create the Dayoff reducers, actions and making it functional.
+⭕ Create the Overtime reducers, actions and making it functional.

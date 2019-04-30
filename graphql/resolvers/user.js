@@ -28,18 +28,18 @@ module.exports = {
       return {
         ok: false,
         errors: [{ path: "authentication", message: "Not authenticated" }]
-      }
+      };
     }
     try {
-      const fetchedUser = user(userId)
+      const fetchedUser = user(userId);
 
-      return { ok: true, user: fetchedUser }
+      return { ok: true, user: fetchedUser };
     } catch (error) {
       // throw error;
       return {
         ok: false,
         errors: [{ path: error.path, message: error.message }]
-      }
+      };
     }
   },
   createUser: async args => {
@@ -68,7 +68,7 @@ module.exports = {
       const result = await user.save();
       // const createdUser = { ...result._doc, password: null, _id: result.id };
       // return { ...result._doc, password: null, _id: result.id };
-      return { email: result.email, ok: true };
+      return { user, ok: true };
     } catch (err) {
       return {
         email: null,
