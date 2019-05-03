@@ -68,7 +68,7 @@ module.exports = {
       const result = await user.save();
       // const createdUser = { ...result._doc, password: null, _id: result.id };
       // return { ...result._doc, password: null, _id: result.id };
-      return { user, ok: true };
+      return { user: result, errors: [], ok: true };
     } catch (err) {
       return {
         email: null,
@@ -138,6 +138,12 @@ module.exports = {
         expiresIn: "1h"
       }
     );
-    return { userId: user.id, token: token, tokenExpiration: 1, ok: true };
+    return {
+      userId: user.id,
+      token: token,
+      tokenExpiration: 1,
+      ok: true,
+      errors: []
+    };
   }
 };

@@ -1,15 +1,13 @@
-**April 29, 2019**
+**Tuesday April 30, 2019**
 
 **Goals & Status**
-✅ Research about Redux, and how to add redux into a react app.
-✅ Create the redux files such as the Reducers, Actions, Constant Action Types
-❌ Put fetched users data from API into the redux store.
-
+✅ Create my first saga with asynchronous api request
+✅ Partially migrate from using apollo-boost (react-graphql-client) library to axios
+✅ Test the first redux integration module (App Component)
 
 **others**
-✅ Minor code enhancements.
+✅ Read the redux-saga documentation.
 
 **For next session**
-⭕ Create the Users reducers, actions and making it functional.
-⭕ Create the Dayoff reducers, actions and making it functional.
-⭕ Create the Overtime reducers, actions and making it functional.
+⭕ Fully migrate into using the axios library instead of the apollo-boost (react-client)
+⭕ Create the rest of the redux integration modules.
