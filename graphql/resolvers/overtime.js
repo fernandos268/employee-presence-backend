@@ -65,7 +65,7 @@ module.exports = {
       approver.assignedOvertimes.push(overtime);
       await approver.save();
 
-      return { ok: true, overtime: createdOvertime };
+      return { ok: true, errors: [], overtime: createdOvertime };
     } catch (error) {
       // throw error;
       return {
@@ -91,7 +91,8 @@ module.exports = {
         // throw new Error("User not found");
         return {
           ok: false,
-          errors: [{ path: "creator", message: "User not found" }]
+          errors: [{ path: "creator", message: "User not found" }],
+          overtime: []
         };
       }
 
@@ -99,12 +100,13 @@ module.exports = {
 
       await overtime.save();
 
-      return { ok: true, overtime: transformOvertime(overtime) };
+      return { ok: true, errors: [], overtime: transformOvertime(overtime) };
     } catch (error) {
       // throw error;
       return {
         ok: false,
-        errors: [{ path: error.path, message: error.message }]
+        errors: [{ path: error.path, message: error.message }],
+        overtime: []
       };
     }
   },
