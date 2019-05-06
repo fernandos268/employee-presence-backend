@@ -23,17 +23,17 @@ module.exports = {
     }
   },
   fetchUser: async ({ userId }, req) => {
-    if (!req.isAuth) {
-      // throw new Error("Not authenticated");
-      return {
-        ok: false,
-        errors: [{ path: "authentication", message: "Not authenticated" }]
-      };
-    }
+    // if (!req.isAuth) {
+    //   // throw new Error("Not authenticated");
+    //   return {
+    //     ok: false,
+    //     errors: [{ path: "authentication", message: "Not authenticated" }]
+    //   };
+    // }
     try {
       const fetchedUser = user(userId);
 
-      return { ok: true, user: fetchedUser };
+      return { ok: true, errors: [], user: fetchedUser };
     } catch (error) {
       // throw error;
       return {

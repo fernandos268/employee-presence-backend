@@ -1,13 +1,15 @@
 **Tuesday April 30, 2019**
 
 **Goals & Status**
-✅ Create my first saga with asynchronous api request
-✅ Partially migrate from using apollo-boost (react-graphql-client) library to axios
-✅ Test the first redux integration module (App Component)
+✅ Implement Redux.
+✅ Further migration from using React-Apollo (graphql-react-client) to Axios.
+✅ Implement Redux-Saga (redux-middleware) to handle asynchronous API calls.
 
 **others**
-✅ Read the redux-saga documentation.
+❌ Fetch & shape current users data (Overtimes & Dayoffs) and display to calendar.
+✅ Re-demo for redux implementation.
 
 **For next session**
-⭕ Fully migrate into using the axios library instead of the apollo-boost (react-client)
-⭕ Create the rest of the redux integration modules.
+⭕ Further research on ES6 generator functions.
+⭕ Trap API requests errors / API inavailability related errors.
+⭕ Manage redux store and distribute data to components efficiently.
